@@ -1,0 +1,13 @@
+{
+  "name": "Techyuga Labs",
+  "short_name": "Techyuga",
+  "description": "Independent software, designed with intent.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#fdfbf6",
+  "theme_color": "#fdfbf6",
+  "icons": [
+    { "src": "/logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/apple-touch-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,45 @@
+---
+// Aptabase web analytics — privacy-first, same provider the mobile app uses.
+// Loads only if PUBLIC_APTABASE_KEY is set, so the site works fine during dev
+// without one. No cookies, no per-user tracking.
+//
+// Docs: https://aptabase.com/docs
+// Package: @aptabase/web (bundled by Vite, not loaded from a CDN at runtime
+// so it never fails silently from a missing or slow module host).
+//
+// To activate: add to a `.env` file (gitignored):
+//   PUBLIC_APTABASE_KEY=A-US-xxxxxxxxxx
+// Then re-build / re-dev.
+
+const key = import.meta.env.PUBLIC_APTABASE_KEY;
+---
+
+{
+  key && (
+    <script>
+      import { init, trackEvent } from '@aptabase/web';
+
+      const APTABASE_KEY = import.meta.env.PUBLIC_APTABASE_KEY;
+
+      try {
+        init(APTABASE_KEY);
+        // Expose on window for ad-hoc event firing from page scripts.
+        (window as any).__trackEvent = trackEvent;
+
+        const fire = () => {
+          trackEvent('page_view', { path: location.pathname });
+          // Visible breadcrumb so you can tell in DevTools that it actually ran
+          // without needing the dashboard to update. Remove once stable.
+          // eslint-disable-next-line no-console
+          console.info('[aptabase] page_view', location.pathname);
+        };
+
+        if (document.readyState === 'complete') fire();
+        else window.addEventListener('load', fire, { once: true });
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('[aptabase] init failed', err);
+      }
+    </script>
+  )
+}

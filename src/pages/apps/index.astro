@@ -1,0 +1,74 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import AppCard from '~/components/AppCard.astro';
+import { APPS } from '~/consts';
+---
+
+<BaseLayout
+  title="Apps"
+  description="Independent apps, built on principle. Fair, honest, user-first."
+  canonical="/apps/"
+>
+  <section class="header">
+    <div class="container">
+      <p class="eyebrow">Apps</p>
+      <h1>Independent software, built with care.</h1>
+      <p class="lead">Each app does one thing, does it well, and stands on its own.</p>
+    </div>
+  </section>
+
+  <section class="list">
+    <div class="container">
+      <div class="grid">
+        {APPS.map((app) => <AppCard app={app} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: var(--container-wide);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .header { padding: 5rem 0 2rem; }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: var(--text-xs);
+    color: var(--color-gold-400);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    margin: 0 0 1rem;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid color-mix(in oklab, var(--color-gold-500) 30%, transparent);
+    border-radius: 100px;
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-size: var(--text-4xl);
+    font-weight: 400;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+    margin: 0 0 1rem;
+    line-height: 1.15;
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .list { padding: 2rem 0 4rem; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+</style>

@@ -1,0 +1,157 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { SITE_NAME, AUTHOR } from '~/consts';
+---
+
+<BaseLayout
+  title="Colophon"
+  description={`How ${SITE_NAME} is built. Tools, typography, hosting, and the people and projects it stands on.`}
+  canonical="/colophon/"
+>
+  <section class="page">
+    <div class="container">
+      <p class="eyebrow">Colophon</p>
+      <h1>How this site is built.</h1>
+      <p class="lead">
+        Sites that hide what they're made of are often hiding something else too.
+        This one isn't. Here's the stack.
+      </p>
+
+      <div class="prose">
+        <h2>Framework & tooling</h2>
+        <table>
+          <tbody>
+            <tr><td>Static site generator</td><td><a href="https://astro.build" rel="noopener">Astro 5</a></td></tr>
+            <tr><td>Styling</td><td><a href="https://tailwindcss.com" rel="noopener">Tailwind CSS 4</a> + hand-written CSS tokens</td></tr>
+            <tr><td>Content format</td><td>MDX (frontmatter-validated Markdown with components)</td></tr>
+            <tr><td>Image pipeline</td><td><a href="https://sharp.pixelplumbing.com" rel="noopener">Sharp</a> via Astro's built-in image service (WebP / AVIF / responsive srcset)</td></tr>
+            <tr><td>Type checking</td><td>TypeScript, strict mode</td></tr>
+            <tr><td>Package manager</td><td><a href="https://bun.sh" rel="noopener">Bun</a></td></tr>
+          </tbody>
+        </table>
+
+        <h2>Hosting</h2>
+        <table>
+          <tbody>
+            <tr><td>Static hosting</td><td><a href="https://pages.cloudflare.com" rel="noopener">Cloudflare Pages</a>: free tier, global edge, static only (no server functions)</td></tr>
+            <tr><td>DNS</td><td>Cloudflare</td></tr>
+            <tr><td>TLS</td><td>Cloudflare universal SSL (TLS 1.3, HSTS, auto-renewal)</td></tr>
+            <tr><td>Deploys</td><td>Automatic on push to <code>main</code></td></tr>
+          </tbody>
+        </table>
+
+        <h2>Typography</h2>
+        <table>
+          <tbody>
+            <tr><td>Display &amp; body serif</td><td><a href="https://fonts.google.com/specimen/Literata" rel="noopener">Literata</a> (SIL Open Font License): editorial, highly legible at reading sizes</td></tr>
+            <tr><td>UI sans</td><td><a href="https://rsms.me/inter/" rel="noopener">Inter</a> (SIL Open Font License), with <code>ss01</code> single-story <em>a</em> + <code>cv11</code> slashed zero</td></tr>
+            <tr><td>Mono (code)</td><td>JetBrains Mono / IBM Plex Mono / system fallbacks</td></tr>
+          </tbody>
+        </table>
+
+        <h2>Analytics &amp; privacy</h2>
+        <table>
+          <tbody>
+            <tr><td>Analytics</td><td><a href="https://aptabase.com" rel="noopener">Aptabase</a>: anonymous, aggregate, no cookies, GDPR-friendly by design</td></tr>
+            <tr><td>Cookies</td><td>None set by this site</td></tr>
+            <tr><td>Third-party scripts</td><td>None other than the analytics snippet</td></tr>
+            <tr><td>Ad networks</td><td>None</td></tr>
+          </tbody>
+        </table>
+        <p>Full details are in the <a href="/privacy/">privacy policy</a>.</p>
+
+        <h2>Accessibility</h2>
+        <ul>
+          <li>Semantic HTML (proper heading order, landmark regions, aria labels where needed)</li>
+          <li>Skip-to-content link on every page</li>
+          <li>Focus rings respect <code>focus-visible</code>, visible on keyboard, invisible on mouse</li>
+          <li>Reduced-motion media query honored for animations and transitions</li>
+          <li>Contrast meets WCAG AA across the dark palette</li>
+        </ul>
+
+        <h2>Performance</h2>
+        <ul>
+          <li>Static HTML, no runtime JS required to read a page</li>
+          <li>Images auto-converted to WebP / AVIF with responsive srcset</li>
+          <li>CSS inlined for the critical path; larger stylesheets external with long-cache headers</li>
+          <li>Prefetch on hover for internal links (not prefetch-all, to stay bandwidth-conscious)</li>
+          <li>Font display: <code>swap</code> to avoid invisible text during webfont load</li>
+        </ul>
+
+        <h2>SEO</h2>
+        <ul>
+          <li>Auto-generated sitemap at <a href="/sitemap-index.xml">/sitemap-index.xml</a></li>
+          <li>RSS feed at <a href="/guides/rss.xml">/guides/rss.xml</a> (with pretty XSL stylesheet for humans)</li>
+          <li>Per-page canonical URL, Open Graph, Twitter card</li>
+          <li>JSON-LD structured data: <code>Organization</code>, <code>Person</code>, <code>Article</code>, <code>BreadcrumbList</code>, <code>SoftwareApplication</code></li>
+          <li><code>robots.txt</code> with sitemap autodiscovery</li>
+        </ul>
+
+        <h2>Content</h2>
+        <ul>
+          <li>Guides are MDX, kept in a <code>src/content/guides/</code> directory under version control</li>
+          <li>Frontmatter is validated against a schema at build time; a guide with invalid frontmatter fails the build, not production</li>
+          <li>Every guide is written and reviewed by a real person ({AUTHOR.name}); nothing is published blind</li>
+          <li>Updated dates are tracked and visible on each guide</li>
+        </ul>
+
+        <h2>Credit</h2>
+        <p>
+          Every open-source project this site depends on is listed in
+          <code>package.json</code> and traceable to a public repository with its
+          own license. The craft bar this site aspires to was set by the sites
+          that taught us what honest, calm web design looks like: <a href="https://panic.com" rel="noopener">Panic Inc</a>,
+          <a href="https://linear.app" rel="noopener">Linear</a>,
+          <a href="https://pitch.com" rel="noopener">Pitch</a>, and the long tradition
+          of editorial web typography behind them.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page { padding: 5rem 0 3rem; }
+
+  .container {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: var(--text-xs);
+    color: var(--color-gold-400);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    margin: 0 0 1rem;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid color-mix(in oklab, var(--color-gold-500) 30%, transparent);
+    border-radius: 100px;
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-size: var(--text-4xl);
+    font-weight: 400;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+    margin: 0 0 1rem;
+    line-height: 1.15;
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin: 0 0 2.5rem;
+    max-width: 55ch;
+  }
+
+  table td:first-child {
+    color: var(--color-text-dim);
+    width: 40%;
+    font-size: var(--text-sm);
+  }
+</style>

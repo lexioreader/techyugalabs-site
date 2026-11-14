@@ -1,0 +1,208 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import AppCard from '~/components/AppCard.astro';
+import GuideCard from '~/components/GuideCard.astro';
+import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, APPS, AUTHOR, authorSameAs } from '~/consts';
+
+const guides = (await getCollection('guides', (g) => !g.data.draft))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 3);
+
+// JSON-LD — Organization + founder. Founder is a real named Person with
+// sameAs links, which is what Google uses for E-E-A-T verification.
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
+  founder: {
+    '@type': 'Person',
+    name: AUTHOR.name,
+    jobTitle: AUTHOR.role,
+    url: new URL(AUTHOR.url, SITE_URL).href,
+    sameAs: authorSameAs(),
+  },
+  sameAs: authorSameAs(),
+};
+---
+
+<BaseLayout
+  title={SITE_NAME}
+  description={SITE_DESCRIPTION}
+  structuredData={organizationSchema}
+>
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">Independent software.</p>
+      <h1>Apps that put you first.</h1>
+      <p class="lead">
+        Software designed with intent and shipped with care. Each app is
+        considered end-to-end and held to one question: does this serve the
+        person using it?
+      </p>
+    </div>
+  </section>
+
+  <section class="apps">
+    <div class="container">
+      <header class="section-head">
+        <h2>Apps</h2>
+        <a href="/apps/" class="section-link">All apps →</a>
+      </header>
+
+      <div class="apps-grid">
+        {APPS.map((app) => <AppCard app={app} />)}
+      </div>
+    </div>
+  </section>
+
+  {
+    guides.length > 0 && (
+      <section class="writing">
+        <div class="container">
+          <header class="section-head">
+            <h2>Writing</h2>
+            <a href="/guides/" class="section-link">All writing →</a>
+          </header>
+
+          <div class="writing-grid">
+            {guides.map((g) => (
+              <GuideCard
+                slug={g.id}
+                title={g.data.title}
+                description={g.data.description}
+                pubDate={g.data.pubDate}
+                category={g.data.category}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: var(--container-wide);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* Hero — minimal, confident, no CTA stack. The nav + apps section below
+     are where visitors go next; forcing a button cluster makes the page
+     feel like a marketing landing page, not a studio homepage. */
+  .hero {
+    padding: 8rem 0 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    width: 900px;
+    height: 900px;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--color-gold-500) 8%, transparent),
+      transparent 55%
+    );
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: var(--text-xs);
+    color: var(--color-gold-400);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    margin: 0 0 1.75rem;
+    opacity: 0.9;
+  }
+
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: var(--text-5xl);
+    font-weight: 400;
+    color: var(--color-text);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    max-width: 18ch;
+    margin: 0 0 1.75rem;
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    max-width: 48ch;
+    margin: 0;
+  }
+
+  /* Sections share the same head pattern — simple, left-aligned, small. */
+  .apps,
+  .writing {
+    padding: 4rem 0;
+  }
+
+  .section-head {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .section-head h2 {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+  }
+
+  .section-link {
+    font-size: var(--text-xs);
+    color: var(--color-gold-400);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    transition: color 120ms ease;
+  }
+  .section-link:hover { color: var(--color-gold-300); }
+
+  .apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .writing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding: 3rem 0 2rem; }
+    .apps, .writing { padding: 2.5rem 0; }
+    .hero h1 { font-size: var(--text-4xl); }
+  }
+  @media (max-width: 480px) {
+    .apps-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .writing-grid { grid-template-columns: 1fr; }
+  }
+</style>

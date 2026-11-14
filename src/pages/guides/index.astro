@@ -1,0 +1,145 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import GuideCard from '~/components/GuideCard.astro';
+import { CATEGORIES } from '~/consts';
+
+const guides = (await getCollection('guides', (g) => !g.data.draft)).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+
+const guidesByCategory = CATEGORIES.map((cat) => ({
+  ...cat,
+  guides: guides.filter((g) => g.data.category === cat.slug),
+}));
+---
+
+<BaseLayout
+  title="Writing"
+  description="Long-form guides on the topics our apps touch. Reading, privacy, on-device AI, the mechanics of attention. Updated regularly."
+  canonical="/guides/"
+>
+  <section class="header">
+    <div class="container">
+      <p class="eyebrow">Writing</p>
+      <h1>Long-form, patient, and genuinely useful.</h1>
+      <p class="lead">
+        Guides on the topics our apps touch. Reading, privacy, on-device AI, and
+        the mechanics of attention. New ones appear regularly.
+      </p>
+    </div>
+  </section>
+
+  {
+    guides.length === 0 ? (
+      <section class="empty container">
+        <p>No guides published yet. Check back soon. The first batch ships with the site launch.</p>
+      </section>
+    ) : (
+      <section class="container">
+        {guidesByCategory
+          .filter((cat) => cat.guides.length > 0)
+          .map((cat) => (
+            <div class="cat-block">
+              <header class="cat-head">
+                <h2>{cat.name}</h2>
+                <p>{cat.description}</p>
+              </header>
+              <div class="cat-grid">
+                {cat.guides.map((g) => (
+                  <GuideCard
+                    slug={g.id}
+                    title={g.data.title}
+                    description={g.data.description}
+                    pubDate={g.data.pubDate}
+                    category={g.data.category}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: var(--container-wide);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .header {
+    padding: 5rem 0 3rem;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: var(--text-xs);
+    color: var(--color-gold-400);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    margin: 0 0 1rem;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid color-mix(in oklab, var(--color-gold-500) 30%, transparent);
+    border-radius: 100px;
+  }
+
+  .header h1 {
+    font-family: var(--font-serif);
+    font-size: var(--text-4xl);
+    font-weight: 400;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    max-width: 24ch;
+    margin: 0 0 1rem;
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  .empty {
+    padding: 4rem 1.5rem;
+    color: var(--color-text-dim);
+    font-style: italic;
+  }
+
+  .cat-block {
+    padding: 3rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .cat-block:last-child { border-bottom: none; }
+
+  .cat-head {
+    margin-bottom: 1.5rem;
+  }
+
+  .cat-head h2 {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    font-weight: 500;
+    color: var(--color-text);
+    margin: 0 0 0.375rem;
+    letter-spacing: -0.015em;
+  }
+
+  .cat-head p {
+    color: var(--color-text-dim);
+    font-size: var(--text-sm);
+    margin: 0;
+  }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+</style>

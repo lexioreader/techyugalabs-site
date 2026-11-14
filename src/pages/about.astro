@@ -1,0 +1,247 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { SITE_NAME, SITE_URL, CONTACT_EMAIL, AUTHOR, authorSameAs } from '~/consts';
+
+// Person schema for the author. /about/ IS the author page — search engines
+// treat this as the canonical identity for guides that cite AUTHOR.name.
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: AUTHOR.name,
+  jobTitle: AUTHOR.role,
+  description: AUTHOR.bio,
+  url: new URL(AUTHOR.url, SITE_URL).href,
+  ...(AUTHOR.avatar && { image: new URL(AUTHOR.avatar, SITE_URL).href }),
+  worksFor: {
+    '@type': 'Organization',
+    name: SITE_NAME,
+    url: SITE_URL,
+  },
+  sameAs: authorSameAs(),
+};
+
+const handles = Object.entries(AUTHOR.handles).filter(([, url]) => !!url);
+---
+
+<BaseLayout
+  title="About"
+  description={`${SITE_NAME} is independent software built on principle. Fair, honest, user-first.`}
+  canonical="/about/"
+  structuredData={personSchema}
+>
+  <section class="about">
+    <div class="container">
+      <p class="eyebrow">About</p>
+      <h1>Software built on principle.</h1>
+
+      <div class="prose">
+        <p>
+          {SITE_NAME} is an independent software practice. The first app to ship
+          is <a href="/apps/pagesage/">Readyuga</a>; others will follow. What unites
+          them isn't a category. It's a posture toward the people who use them.
+        </p>
+
+        <h2>Principles</h2>
+
+        <p>
+          Four things we hold ourselves to across everything we ship. They're the
+          test every design decision has to pass before it leaves the door.
+        </p>
+
+        <ol>
+          <li>
+            <strong>Designed around the person using it.</strong> The user is who
+            the product is for. Not the advertiser, not the investor, not the
+            analytics dashboard. Every design choice has to serve the person on
+            the other end.
+          </li>
+          <li>
+            <strong>Fair exchange, clearly stated.</strong> You know what you're
+            getting, what it costs, and why. Terms are plain. Features aren't
+            bait. Nothing is manufactured to manipulate a decision.
+          </li>
+          <li>
+            <strong>Respect for user data.</strong> We default to collecting less,
+            not more. What we do collect, we tell you about plainly, and we keep
+            it only as long as it's useful.
+          </li>
+          <li>
+            <strong>Craft over output.</strong> A thing ships when it's ready,
+            not when a calendar says so. Fewer things, done properly.
+          </li>
+        </ol>
+
+        <h2>What we're not</h2>
+
+        <ul>
+          <li>Not a venture-funded startup. The business is answerable to the people who use it, not to a return schedule.</li>
+          <li>Not a platform. Each app does one thing; nothing locks you in.</li>
+          <li>Not a brand ecosystem. If an app fits you, use it; if it doesn't, nothing follows you home.</li>
+          <li>Not a growth-hacking operation. Attention is earned, not harvested.</li>
+        </ul>
+
+        <h2 id="author">Author</h2>
+
+        <div class="author-card">
+          {
+            AUTHOR.avatar && (
+              <img
+                src={AUTHOR.avatar}
+                alt={AUTHOR.name}
+                class="avatar"
+                width="80"
+                height="80"
+                loading="lazy"
+              />
+            )
+          }
+          <div class="author-body">
+            <p class="author-name">{AUTHOR.name} <span class="author-role">· {AUTHOR.role}</span></p>
+            <p class="author-bio">{AUTHOR.bio}</p>
+            {
+              handles.length > 0 && (
+                <ul class="handles">
+                  {handles.map(([key, url]) => (
+                    <li>
+                      <a href={url} rel="me noopener" target="_blank">
+                        {key === 'x' ? 'X' : key.charAt(0).toUpperCase() + key.slice(1)}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )
+            }
+          </div>
+        </div>
+
+        <h2>The writing</h2>
+
+        <p>
+          The <a href="/guides/">writing section</a> is where long-form guides on
+          reading, privacy, on-device AI, and the mechanics of attention appear.
+          Each one is researched, written, and edited to be genuinely useful,
+          not SEO filler. Everything is signed, dated, and updated when the
+          world changes.
+        </p>
+
+        <h2>Contact</h2>
+
+        <p>
+          Bug reports, feature ideas, or just hello:
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+          Real responses, usually within a day or two.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about { padding: 5rem 0 3rem; }
+
+  .container {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: var(--text-xs);
+    color: var(--color-gold-400);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    margin: 0 0 1rem;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid color-mix(in oklab, var(--color-gold-500) 30%, transparent);
+    border-radius: 100px;
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-size: var(--text-4xl);
+    font-weight: 400;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+    margin: 0 0 2.5rem;
+    line-height: 1.15;
+  }
+
+  /* Author card — the trust-signal block */
+  .author-card {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    padding: 1.5rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    margin: 0.5rem 0 2rem;
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid var(--color-border);
+  }
+
+  .author-body { flex: 1; }
+
+  .author-name {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    color: var(--color-text);
+    margin: 0 0 0.25rem;
+    font-weight: 500;
+  }
+
+  .author-role {
+    color: var(--color-text-dim);
+    font-size: var(--text-sm);
+    font-style: italic;
+  }
+
+  .author-bio {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+    margin: 0 0 0.75rem;
+  }
+
+  .handles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .handles a {
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    font-size: var(--text-xs);
+    color: var(--color-gold-400);
+    background: var(--color-ink-800);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: border-color 120ms ease, color 120ms ease;
+  }
+
+  .handles a:hover {
+    border-color: var(--color-gold-500);
+    color: var(--color-gold-300);
+  }
+
+  @media (max-width: 640px) {
+    .about { padding: 3rem 0 2rem; }
+    h1 { font-size: var(--text-3xl); margin: 0 0 1.5rem; }
+    .author-card { gap: 1rem; padding: 1.25rem; }
+    .avatar { width: 56px; height: 56px; }
+  }
+</style>

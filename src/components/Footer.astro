@@ -1,0 +1,159 @@
+---
+import { SITE_NAME, CONTACT_EMAIL, APPS, FOOTER_META, AUTHOR } from '~/consts';
+const year = new Date().getFullYear();
+const handles = Object.entries(AUTHOR.handles).filter(([, url]) => !!url);
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="grid">
+      <div class="col brand-col">
+        <div class="brand">
+          <img
+            src="/logo.png"
+            alt=""
+            class="brand-mark"
+            width="22"
+            height="22"
+            loading="lazy"
+            decoding="async"
+          />
+          <span>{SITE_NAME}</span>
+        </div>
+        <p class="tagline">
+          Independent software, built on principle. Fair, honest, user-first.
+        </p>
+      </div>
+
+      <div class="col">
+        <h3>Apps</h3>
+        <ul>
+          {APPS.map((app) => (
+            <li><a href={`/apps/${app.slug}/`}>{app.name}</a></li>
+          ))}
+          <li><a href="/apps/">All apps</a></li>
+        </ul>
+      </div>
+
+      <div class="col">
+        <h3>Site</h3>
+        <ul>
+          <li><a href="/guides/">Writing</a></li>
+          <li><a href="/about/">About</a></li>
+          {FOOTER_META.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="col">
+        <h3>Author</h3>
+        <ul>
+          <li><a href="/about/#author">{AUTHOR.name}</a></li>
+          <li><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></li>
+          {handles.map(([key, url]) => (
+            <li>
+              <a href={url} rel="me noopener" target="_blank">
+                {key === 'x' ? 'X' : key.charAt(0).toUpperCase() + key.slice(1)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="legal">
+      <p>&copy; {year} {SITE_NAME}. Built honestly, by {AUTHOR.name}.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 6rem;
+    padding: 4rem 0 2.5rem;
+    background: color-mix(in oklab, var(--color-ink-900) 60%, var(--color-bg));
+    border-top: 1px solid var(--color-border);
+  }
+
+  .container {
+    max-width: var(--container-wide);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    color: var(--color-text);
+    margin-bottom: 0.75rem;
+  }
+
+  .brand-mark {
+    width: 22px;
+    height: 22px;
+    display: block;
+    object-fit: contain;
+  }
+
+  .tagline {
+    color: var(--color-text-dim);
+    font-size: var(--text-sm);
+    max-width: 32ch;
+    line-height: 1.5;
+  }
+
+  .col h3 {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-dim);
+    margin-bottom: 1rem;
+  }
+
+  .col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .col li { margin-bottom: 0.5rem; }
+
+  .col a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    transition: color 120ms ease;
+  }
+  .col a:hover { color: var(--color-gold-400); }
+
+  .legal {
+    padding-top: 2rem;
+    border-top: 1px solid color-mix(in oklab, var(--color-border) 50%, transparent);
+    color: var(--color-text-dim);
+    font-size: var(--text-xs);
+  }
+
+  @media (max-width: 720px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .brand-col { grid-column: 1 / -1; }
+  }
+  @media (max-width: 480px) {
+    .grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
+</style>

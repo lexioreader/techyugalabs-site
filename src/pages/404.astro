@@ -1,0 +1,94 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found" description="The page you're looking for doesn't exist." noindex>
+  <section class="notfound">
+    <div class="container">
+      <p class="code">404</p>
+      <h1>This page isn't here.</h1>
+      <p class="lead">
+        The link is broken, the page moved, or it never existed in the first place.
+        Nothing to do about that one, but there's plenty to read elsewhere.
+      </p>
+
+      <div class="actions">
+        <a href="/" class="btn primary">Back to home</a>
+        <a href="/guides/" class="btn ghost">Browse guides →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    padding: 8rem 0;
+    text-align: center;
+  }
+
+  .container {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .code {
+    font-family: var(--font-serif);
+    font-size: 6rem;
+    font-weight: 400;
+    color: var(--color-gold-500);
+    opacity: 0.4;
+    margin: 0;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-size: var(--text-4xl);
+    font-weight: 400;
+    color: var(--color-text);
+    margin: 1rem 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .lead {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    margin: 0 0 2.5rem;
+    max-width: 40ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: transform 150ms ease, background-color 150ms ease, color 150ms ease;
+  }
+
+  .btn.primary {
+    background: var(--color-gold-500);
+    color: var(--color-ink-950);
+  }
+  .btn.primary:hover { background: var(--color-gold-400); transform: translateY(-1px); }
+
+  .btn.ghost {
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+  }
+  .btn.ghost:hover { border-color: var(--color-gold-500); color: var(--color-gold-400); }
+</style>

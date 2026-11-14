@@ -1,0 +1,140 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { SITE_NAME, CONTACT_EMAIL } from '~/consts';
+
+const lastUpdated = new Date('2026-11-09');
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  month: 'long', day: 'numeric', year: 'numeric',
+});
+---
+
+<BaseLayout
+  title="Privacy"
+  description={`How ${SITE_NAME} handles your data on this website. Short answer: as little as possible.`}
+  canonical="/privacy/"
+>
+  <section class="page">
+    <div class="container">
+      <p class="eyebrow">Privacy</p>
+      <h1>How this site handles your data.</h1>
+      <p class="updated">Last updated {dateFormatter.format(lastUpdated)}</p>
+
+      <div class="prose">
+        <p>
+          Short answer: as little as possible. This page is longer only so it can
+          be specific about <em>what</em> little.
+        </p>
+
+        <h2>What this site collects</h2>
+
+        <p>
+          This website uses <a href="https://aptabase.com" rel="noopener">Aptabase</a>
+          for aggregate, anonymous analytics. We record:
+        </p>
+
+        <ul>
+          <li>Which page was visited</li>
+          <li>Approximate country and operating system</li>
+          <li>Approximate time of visit</li>
+        </ul>
+
+        <p>We do not record:</p>
+
+        <ul>
+          <li>Your IP address (Aptabase hashes it and does not store it)</li>
+          <li>Any identifier that could link visits across sessions</li>
+          <li>Any cross-site tracking identifier</li>
+          <li>Any personal information (we don't collect any)</li>
+        </ul>
+
+        <p>
+          No cookies are set by this website. No third-party trackers are loaded.
+          No ad networks are present. If you block analytics entirely, the site
+          works exactly the same.
+        </p>
+
+        <h2>What you send us directly</h2>
+
+        <p>
+          If you email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>, we
+          read your message, reply, and keep the thread in our inbox the same way
+          anyone keeps an email thread. We don't add you to a mailing list and
+          don't share the message with anyone else.
+        </p>
+
+        <h2>What the apps we build do</h2>
+
+        <p>
+          Each app has its own privacy policy (linked from the app's own
+          documentation). This policy covers only the <em>website</em> you're
+          currently on. The short version for our apps: we default to on-device,
+          collect anonymous crash + usage telemetry only, and never link telemetry
+          to a person.
+        </p>
+
+        <h2>Who we share data with</h2>
+
+        <p>No one. The only third party we use is Aptabase, our analytics provider,
+          and only as described above. We don't sell data. We don't swap data with
+          other companies. We don't run ad retargeting. There is nothing to sell;
+          there is nothing to swap.</p>
+
+        <h2>Changes to this policy</h2>
+
+        <p>
+          If this policy changes materially, the Last updated date above changes
+          with it. Earlier versions are preserved in our git history and available
+          on request.
+        </p>
+
+        <h2>Contact</h2>
+
+        <p>
+          Questions: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page { padding: 5rem 0 3rem; }
+
+  .container {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: var(--text-xs);
+    color: var(--color-gold-400);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    margin: 0 0 1rem;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid color-mix(in oklab, var(--color-gold-500) 30%, transparent);
+    border-radius: 100px;
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-size: var(--text-4xl);
+    font-weight: 400;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+    margin: 0 0 1rem;
+    line-height: 1.15;
+  }
+
+  .updated {
+    font-size: var(--text-xs);
+    color: var(--color-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin: 0 0 2.5rem;
+  }
+</style>

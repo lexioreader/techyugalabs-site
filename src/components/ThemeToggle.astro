@@ -1,0 +1,82 @@
+---
+// Theme toggle. Cycles between light and dark. Respects system preference
+// on first load if no choice has been saved; FOUC prevention is in BaseLayout.
+// Persisted key: localStorage['tsl-theme'] = 'light' | 'dark'. Absent = system.
+---
+
+<button
+  type="button"
+  class="theme-toggle"
+  aria-label="Toggle color theme"
+  title="Toggle color theme"
+  data-theme-toggle
+>
+  <svg class="icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+  </svg>
+  <svg class="icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: transparent;
+    color: var(--color-text-muted);
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
+  }
+
+  .theme-toggle:hover {
+    color: var(--color-gold-400);
+    background: color-mix(in oklab, var(--color-surface) 70%, transparent);
+    border-color: color-mix(in oklab, var(--color-border) 60%, transparent);
+  }
+
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Show sun when dark (so clicking switches to light);
+     show moon when light (so clicking switches to dark). */
+  .theme-toggle .sun { display: none; }
+  .theme-toggle .moon { display: block; }
+
+  :global(html.dark) .theme-toggle .sun { display: block; }
+  :global(html.dark) .theme-toggle .moon { display: none; }
+</style>
+
+<script is:inline>
+  // Attached once per page load. Rebinds on view transitions if needed.
+  (function () {
+    const STORAGE_KEY = 'tsl-theme';
+
+    function currentlyDark() {
+      return document.documentElement.classList.contains('dark');
+    }
+
+    function setTheme(next) {
+      document.documentElement.classList.toggle('dark', next === 'dark');
+      try { localStorage.setItem(STORAGE_KEY, next); } catch (_) { /* storage disabled */ }
+      // Update meta theme-color so browser chrome matches.
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', next === 'dark' ? '#0a0e1a' : '#fdfbf6');
+    }
+
+    document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        setTheme(currentlyDark() ? 'light' : 'dark');
+      });
+    });
+  })();
+</script>
