@@ -1,0 +1,26 @@
+# Techyuga Labs
+
+> Techyuga Labs is an independent software practice founded by Akshay C K. Each app is designed with intent, considered end-to-end, and shipped only when it is actually ready. The first live app is Readyuga, an offline AI ebook reader for Android.
+
+Techyuga Labs ships software that respects the person using it: no account requirements, no ads, no subscriptions when a one-time purchase will do, no cloud when the work can run on-device. The studio publishes long-form guides on reading tools, privacy, on-device AI, and the mechanics of attention — all research-tested and signed by a named author.
+
+## Apps
+
+- [Readyuga](https://techyugalabs.com/apps/pagesage/): The offline AI ebook reader. Reads PDFs and EPUBs with an on-device AI companion (chapter summaries, page Q&A, contextual meanings) and neural voices (Lessac, Amy, Ryan). No account, no cloud, no subscription. Android only. Single one-time Pro unlock for all premium features.
+
+## Guides
+
+- [Book Reading Apps: 7 Options Tested in 2026](https://techyugalabs.com/guides/book-reading-apps/): A practical, tested comparison of ReadEra, Readyuga, Moon+ Reader, Librera Pro, FullReader, Kotobee Reader, and @Voice Aloud Reader. Includes honest disclosure that Techyuga Labs builds Readyuga, with scenario-matched recommendations so each reader finds the right tool for their use case.
+
+## About
+
+- [About Techyuga Labs](https://techyugalabs.com/about/): Studio principles, founder bio (Akshay C K), and contact.
+- [Colophon](https://techyugalabs.com/colophon/): Technical stack, typography, accessibility, and credit.
+- [Privacy Policy](https://techyugalabs.com/privacy/): What is collected, how it is used, and user rights.
+
+## Optional
+
+- [RSS feed for guides](https://techyugalabs.com/guides/rss.xml)
+- [XML sitemap index](https://techyugalabs.com/sitemap-index.xml)
+</content>
+</invoke>
