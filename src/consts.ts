@@ -1,15 +1,15 @@
 // Site-wide constants.
-// Techyuga Labs: same legal entity registered on Google Play. Consolidating
+// TechYuga Labs: same legal entity registered on Google Play. Consolidating
 // brand, entity, and domain removes trademark and compliance friction
 // (privacy policies, App Store developer name, invoices all align on one name).
-// Renamed from TechSage Labs on 2026-11-13 to mirror the Readyuga app brand
+// Renamed from TechSage Labs on 2026-11-13 to mirror the ReadYuga app brand
 // (shared "yuga" stem, which means era / epoch in Sanskrit).
 
-export const SITE_NAME = 'Techyuga Labs';
+export const SITE_NAME = 'TechYuga Labs';
 export const SITE_TAGLINE = 'Software that puts you first.';
 export const SITE_URL = 'https://techyugalabs.com';
 export const SITE_DESCRIPTION =
-  'Techyuga Labs builds independent software, designed with intent. Each app is considered end-to-end and shipped only when it is actually ready.';
+  'TechYuga Labs builds independent software, designed with intent. Each app is considered end-to-end and shipped only when it is actually ready.';
 
 // --------------------------------------------------------------------------
 // AUTHOR — one person, named, with verifiable identity across the web.
@@ -22,9 +22,9 @@ export const SITE_DESCRIPTION =
 // --------------------------------------------------------------------------
 export const AUTHOR = {
   name: 'Akshay C K',                       // matches Google Play + privacy policy
-  role: 'Founder, Techyuga Labs',           // shown on about + guide bylines
+  role: 'Founder, TechYuga Labs',           // shown on about + guide bylines
   bio:
-    'Founder of Techyuga Labs. Writes about reading tools, privacy, on-device AI, ' +
+    'Founder of TechYuga Labs. Writes about reading tools, privacy, on-device AI, ' +
     'and the mechanics of attention. Ships software that respects the people who use it.',
   avatar: '',                               // e.g. '/author/akshay.jpg' — leave blank until you add the file
   // The page that represents the author on this site. /about/ doubles as the
@@ -45,8 +45,8 @@ export const AUTHOR = {
   },
 } as const;
 
-// Contact: the Readyuga support email doubles as the studio contact until we
-// split them. The pagesage007 handle is historical (Readyuga shipped as
+// Contact: the ReadYuga support email doubles as the studio contact until we
+// split them. The pagesage007 handle is historical (ReadYuga shipped as
 // "PageSage" before the V1.4.5 rename) and stays live forever because it is
 // the address on the Play Store listing.
 export const CONTACT_EMAIL = 'pagesage007@gmail.com';
@@ -54,13 +54,13 @@ export const CONTACT_EMAIL = 'pagesage007@gmail.com';
 // Apps grid data: the source of truth for /apps/ pages + homepage grid.
 // Note on the pagesage slug + Play Store URL below: the Google Play package
 // `com.pagesage.app` is immutable once published, so the Play Store URL
-// keeps that path forever. The app itself is now branded Readyuga; the slug
+// keeps that path forever. The app itself is now branded ReadYuga; the slug
 // stays `pagesage` for URL stability (SEO + historical links) and because
 // the Play package is still the source of truth for the install URL.
 export const APPS = [
   {
     slug: 'pagesage',
-    name: 'Readyuga',
+    name: 'ReadYuga',
     tagline: 'The offline AI ebook reader.',
     description:
       'Read PDFs and EPUBs (including scanned PDFs) with an AI companion that lives entirely on your device. No subscription. No account. No cloud.',

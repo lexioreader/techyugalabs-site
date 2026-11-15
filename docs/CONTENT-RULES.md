@@ -1,4 +1,4 @@
-# Techyuga Labs Content Rules
+# TechYuga Labs Content Rules
 
 **Last updated:** 2026-11-10
 **Owner:** Akshay C K
@@ -20,7 +20,7 @@ Every guide must have, in this order:
 
 1. **Frontmatter** matching the Zod schema in [src/content.config.ts](../src/content.config.ts)
 2. **Hook paragraph** (one, ~100 words) — states the problem and the honest thesis
-3. **Author disclosure if applicable**: if the guide compares our own apps, say so in paragraph 2. Example: "I build one of the apps in this list (Readyuga). To stay honest, I've ranked by use case, not by which one I make."
+3. **Author disclosure if applicable**: if the guide compares our own apps, say so in paragraph 2. Example: "I build one of the apps in this list (ReadYuga). To stay honest, I've ranked by use case, not by which one I make."
 4. **Direct-answer section** (H2) — the one-minute summary, scenario-mapped. Targets Google Featured Snippets.
 5. **How this was researched / tested** (H2) — the credibility paragraph. Specific device, specific test files, specific duration. If the guide is informational rather than tested, say so and name the sources.
 6. **Main body** (H2s per section)
@@ -121,7 +121,7 @@ Google's E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness) is 
 
 **What the agent CANNOT do:**
 - Publish without human review in the first 90 days
-- Write about topics outside the Techyuga Labs topic orbit (reading, privacy, on-device AI, attention)
+- Write about topics outside the TechYuga Labs topic orbit (reading, privacy, on-device AI, attention)
 - Publish multiple guides in a single day
 - Scrape or rewrite competitor content
 - Make unverifiable factual claims about volumes, rankings, or performance
@@ -130,7 +130,7 @@ Google's E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness) is 
 
 ## 8. Topic orbit (what we write about)
 
-Techyuga Labs writes about the topics our apps touch. Today, that means:
+TechYuga Labs writes about the topics our apps touch. Today, that means:
 
 - Ebook / PDF reading on Android
 - On-device AI (any domain, but especially reading-adjacent)

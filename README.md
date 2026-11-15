@@ -1,7 +1,7 @@
-# Techyuga Labs — Studio Site
+# TechYuga Labs — Studio Site
 
 Astro 5 + Tailwind v4 + MDX. Static output, dark-first editorial design, Aptabase analytics.
-Parent studio marketing site, hosting [Readyuga](src/pages/apps/pagesage.astro)
+Parent studio marketing site, hosting [ReadYuga](src/pages/apps/pagesage.astro)
 (formerly PageSage; Play Store slug kept) today and future apps as they ship. Long-form SEO guide library lives at `/guides/`.
 
 Production URL: `https://techyugalabs.com` (domain registration pending).
@@ -27,9 +27,9 @@ bun run dev          # http://localhost:4321
 
 ## Analytics (Aptabase)
 
-Same provider the Readyuga mobile app uses. Privacy-first, no cookies, no per-user tracking.
+Same provider the ReadYuga mobile app uses. Privacy-first, no cookies, no per-user tracking.
 
-- Web app: **PageSage-Web** at [us.aptabase.com](https://us.aptabase.com) (name predates the Readyuga rename; the Aptabase project ID is stable so we keep the existing name)
+- Web app: **PageSage-Web** at [us.aptabase.com](https://us.aptabase.com) (name predates the ReadYuga rename; the Aptabase project ID is stable so we keep the existing name)
 - Key is in `.env` as `PUBLIC_APTABASE_KEY` (already set to `A-US-3968646962` locally)
 - For deployment (Cloudflare Pages), set the same env var in the Pages project's
   environment variables. The `PUBLIC_` prefix is what Astro inlines into the client bundle.
@@ -81,7 +81,7 @@ studio-site/
 ## Content pipeline
 
 Daily guides will be appended by a content agent (planned for a later phase, see
-`../ReadMaster.AI/lexio/docs/SAGELABS-SITE-PLAN.md` in the Readyuga repo). The content
+`../ReadMaster.AI/lexio/docs/SAGELABS-SITE-PLAN.md` in the ReadYuga repo). The content
 collection schema in [src/content.config.ts](src/content.config.ts) is the quality gate:
 a guide with missing or invalid frontmatter fails the build, not production.
 
@@ -128,7 +128,7 @@ that hit `playzarcade-next` earlier.
 - Auto sitemap via `@astrojs/sitemap` at `/sitemap-index.xml`
 - OG + Twitter cards per route via `<SeoHead>`
 - Canonical URLs per route
-- JSON-LD: `Organization` + `Person` (founder) on home, `SoftwareApplication` on Readyuga page,
+- JSON-LD: `Organization` + `Person` (founder) on home, `SoftwareApplication` on ReadYuga page,
   `Article` + `Person` (author) + `BreadcrumbList` on each guide
 - RSS feed at `/guides/rss.xml` with pretty XSL stylesheet
 - `robots.txt` with sitemap autodiscovery

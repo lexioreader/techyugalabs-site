@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 /*
-  Techyuga Labs design tokens.
+  TechYuga Labs design tokens.
   LIGHT THEME IS THE DEFAULT (editorial category convention, better reading time).
   Dark theme is applied via `.dark` class on <html>, set by ThemeToggle or the
   FOUC-prevention script in BaseLayout.

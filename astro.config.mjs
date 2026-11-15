@@ -4,7 +4,7 @@ import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 
-// Techyuga Labs studio site Astro config.
+// TechYuga Labs studio site Astro config.
 //
 // `site` drives the sitemap generator, canonical URLs, and OG tags.
 // Image optimization uses Sharp (installed via package.json). Astro's
