@@ -4,6 +4,7 @@ import Header from '~/components/Header.astro';
 import Footer from '~/components/Footer.astro';
 import SeoHead from '~/components/SeoHead.astro';
 import Analytics from '~/components/Analytics.astro';
+import AnalyticsEvents from '~/components/AnalyticsEvents.astro';
 
 interface Props {
   title: string;
@@ -67,6 +68,9 @@ const {
       <slot />
     </main>
     <Footer />
+    <!-- Mount after Footer so click delegation + scroll listeners attach
+         once the main content is in the DOM. Guarded by PUBLIC_APTABASE_KEY. -->
+    <AnalyticsEvents />
 
     <style>
       .skip-link {

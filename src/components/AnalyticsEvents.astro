@@ -1,0 +1,162 @@
+---
+// User-interaction event tracking. Pairs with Analytics.astro, which
+// initialises Aptabase and exposes window.__trackEvent. This component
+// adds listeners for link clicks, scroll depth, and guide-read completion
+// so we get meaningful engagement signal, not just raw page views.
+//
+// Design rules:
+//   - No events if PUBLIC_APTABASE_KEY is unset (Analytics.astro no-ops,
+//     __trackEvent stays undefined, every call here is a cheap guard).
+//   - No PII. Paths and public hostnames only — never query strings, never
+//     anchor text, never selected text.
+//   - Debounced where cheap. Scroll uses requestAnimationFrame so even on
+//     slow devices we don't drown the main thread.
+//
+// Event catalogue (keep in sync with docs/CONTENT-RULES.md if we add it):
+//   playstore_click      — tapped a Google Play Store link. Strongest conversion signal.
+//                          Props: { surface, app_id }
+//   external_link_click  — tapped any non-playstore external link.
+//                          Props: { surface, hostname }
+//   contact_click        — tapped a mailto: link.
+//                          Props: { surface }
+//   guide_click          — internal navigation to /guides/*.
+//                          Props: { from, to }
+//   app_card_click       — internal navigation to /apps/*.
+//                          Props: { from, to }
+//   scroll_depth         — fires once per page at 25/50/75/100% milestones.
+//                          Props: { path, pct }
+//   guide_read_complete  — fires once per guide-page load at 90% scroll.
+//                          Props: { path }
+//
+// All events additionally carry whatever Aptabase auto-collects: app
+// version (from package.json), user-agent-derived OS + browser, country
+// (from IP at event time, IP not stored).
+const key = import.meta.env.PUBLIC_APTABASE_KEY;
+---
+
+{
+  key && (
+    <script>
+      // Small helper so every call-site is identical and safe. If Aptabase
+      // init hasn't finished (race), __trackEvent is undefined and we
+      // silently skip — no events lost in practice because scripts hoist
+      // in load order and Analytics.astro comes before this in the DOM.
+      const track = (name, props) => {
+        const fn = (window).__trackEvent;
+        if (typeof fn !== 'function') return;
+        try {
+          fn(name, props);
+          // Visible breadcrumb for DevTools debugging; strip later if noisy.
+          console.info('[aptabase]', name, props);
+        } catch {
+          /* best-effort — never let analytics break the page */
+        }
+      };
+
+      // ── Click delegation ────────────────────────────────────────────────
+      // One listener on document catches every link click, no per-page wiring
+      // needed. We walk up from event.target to the nearest <a> so clicks on
+      // inner elements (icons, spans) still route correctly.
+      document.addEventListener('click', (e) => {
+        const target = e.target;
+        if (!(target instanceof Element)) return;
+        const anchor = target.closest('a');
+        if (!anchor) return;
+        const href = anchor.getAttribute('href') ?? '';
+        if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+
+        const surface = location.pathname;
+
+        // mailto: links — contact intent, usually footer / about / privacy
+        if (href.startsWith('mailto:')) {
+          track('contact_click', { surface });
+          return;
+        }
+
+        // Google Play Store links — the strongest conversion signal.
+        // Extract the Android package id from the URL so we can tell which
+        // app the user was interested in (if we ship multiple apps later).
+        if (href.startsWith('https://play.google.com/store/apps/')) {
+          const match = href.match(/[?&]id=([^&#]+)/);
+          const app_id = match ? decodeURIComponent(match[1]) : 'unknown';
+          track('playstore_click', { surface, app_id });
+          return;
+        }
+
+        // External links (anything with a different hostname than the site).
+        // Try/catch in case the URL constructor chokes on malformed href.
+        try {
+          const url = new URL(href, location.origin);
+          if (url.hostname && url.hostname !== location.hostname) {
+            track('external_link_click', { surface, hostname: url.hostname });
+            return;
+          }
+        } catch {
+          /* ignore invalid URLs — they're broken but not our concern here */
+        }
+
+        // Internal navigation. Split into a couple of useful categories so
+        // we can see where our own cross-linking actually gets clicked.
+        if (href.startsWith('/apps/')) {
+          track('app_card_click', { from: surface, to: href });
+        } else if (href.startsWith('/guides/') && href !== '/guides/' && href !== '/guides') {
+          // Only track clicks to specific guides, not the guides index itself
+          // — the index is navigation, not content engagement.
+          track('guide_click', { from: surface, to: href });
+        }
+      });
+
+      // ── Scroll depth + guide completion ────────────────────────────────
+      // Milestones are per-page-load. A page reload resets the Set so a
+      // returning visitor fires again. rAF throttling keeps the scroll
+      // listener cheap even on long guide pages where scroll events fire
+      // dozens of times per second during a flick.
+      const milestones = [25, 50, 75, 100];
+      const fired = new Set();
+      let guideCompleteFired = false;
+
+      const isGuidePage =
+        location.pathname.startsWith('/guides/') &&
+        location.pathname !== '/guides/' &&
+        location.pathname !== '/guides';
+
+      const computeScrollPct = () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (docHeight <= 0) return 100;
+        return Math.min(100, Math.round((scrollTop / docHeight) * 100));
+      };
+
+      let raf = 0;
+      const onScroll = () => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          const pct = computeScrollPct();
+
+          for (const m of milestones) {
+            if (pct >= m && !fired.has(m)) {
+              fired.add(m);
+              track('scroll_depth', { path: location.pathname, pct: m });
+            }
+          }
+
+          if (isGuidePage && !guideCompleteFired && pct >= 90) {
+            guideCompleteFired = true;
+            track('guide_read_complete', { path: location.pathname });
+          }
+        });
+      };
+
+      // Passive: true because we never preventDefault the scroll — gives the
+      // browser permission to optimise, important on low-end Android.
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      // Also fire once on load in case the page is short enough that all
+      // milestones are already visible without any scroll (e.g., the About
+      // page viewed on a desktop monitor).
+      if (document.readyState === 'complete') onScroll();
+      else window.addEventListener('load', onScroll, { once: true });
+    </script>
+  )
+}
