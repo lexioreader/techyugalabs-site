@@ -27,17 +27,25 @@ Skip the rest of the guide if one of these matches you:
 
 The rest of this guide walks through the differences in detail.
 
-## How I compared them
+## How I put this comparison together
 
-I spent nine evenings in late October and early November 2026 switching between the two apps on a Samsung Galaxy A54 running Android 14. I loaded the same five source files into both:
+This guide draws on three sources: direct hands-on use of ReadYuga (the app I build at TechYuga Labs), [ReadEra's own documentation and feature list on readera.org](https://readera.org/), and the current state of user feedback from Reddit's r/ebooks, the Slant community comparison, and Play Store reviews from the last six months. Where I describe ReadEra's behaviour, the claim either comes from their official site or from aggregated community reports, not from a controlled test session on my own device.
 
-- A 320-page EPUB novel (Project Gutenberg, Alice's Adventures in Wonderland)
-- A 240-page scanned textbook PDF, image-only, no selectable text layer
-- A 180-page academic PDF with embedded fonts and complex typography
-- A 1,600-page MOBI classic (Dickens)
-- A 60-page EPUB with sidebar notes and footnotes
+I was deliberate about this. A lot of "I tested every app" comparison posts are either months out of date or quietly copying each other. For a comparison that's useful to someone making a decision today, tracing specific claims to specific sources is more honest than generic testimony about a test setup that may or may not have happened.
 
-For each app, I tested: time to open the largest file, reflow quality on the dense PDF, tap-to-define behaviour, text-to-speech voice quality and background playback, highlight colours, bookmark management, import workflow, settings depth, offline behaviour on airplane mode, and the exact monetization structure. I also cross-checked ReadEra's current feature list and Premium pricing against their official site. Every observation below is from direct testing plus that fact-check, not from reading other reviews or press releases.
+Where the two apps overlap (reading EPUBs, PDFs, dictionary, TTS, library management), I've described what each app does and where I think the practical differences land. Where they diverge (on-device AI, free unlimited OCR on scans, format breadth, iOS availability), I've been specific about which app does what, because that's where the "which should I pick" answer lives.
+
+## Get them
+
+<p class="store-links">
+  <strong>ReadEra:</strong>
+  <a class="store-btn" href="https://play.google.com/store/apps/details?id=org.readera" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 20.5V3.5c0-.58.3-1.07.75-1.35L13.19 12 3.75 21.85c-.45-.28-.75-.78-.75-1.35m14.54-6.97l-3.1 1.75-2.78-2.28 2.78-2.28 3.1 1.75c.99.56.99 1.5 0 2.06M15.5 8.66l-9.26 5.24 7.7-7.33 1.56 2.09m-7.7 11.51l9.26 5.24-1.56 2.09-7.7-7.33"/></svg>Google Play</a><a class="store-btn" href="https://apps.apple.com/us/app/readera-book-reader-pdf-epub/id1669188337" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.08zM12 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>App Store</a>
+</p>
+
+<p class="store-links">
+  <strong>ReadYuga:</strong>
+  <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.pagesage.app" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 20.5V3.5c0-.58.3-1.07.75-1.35L13.19 12 3.75 21.85c-.45-.28-.75-.78-.75-1.35m14.54-6.97l-3.1 1.75-2.78-2.28 2.78-2.28 3.1 1.75c.99.56.99 1.5 0 2.06M15.5 8.66l-9.26 5.24 7.7-7.33 1.56 2.09m-7.7 11.51l9.26 5.24-1.56 2.09-7.7-7.33"/></svg>Google Play</a><span class="store-btn store-btn-ghost">iOS: coming later</span>
+</p>
 
 ## The quick side-by-side
 
@@ -131,9 +139,9 @@ ReadYuga is pitched as an AI app, specifically an on-device AI reader. With Pro,
 - **Page Q&A**: ask a question about the current page, get an answer grounded in that page
 - **Contextual word meanings**: not a dictionary definition, but what the word means in this specific passage
 - **Explain this passage** and **Key points** style actions on any paragraph
-- A general model running under the hood: Qwen 3 (either 1.7B or 4B depending on device RAM) via llama.rn + a small embedding model (EmbeddingGemma) for semantic context
+- A general model running under the hood: [Qwen 3](https://huggingface.co/Qwen) (either 1.7B or 4B depending on device RAM) via llama.rn, plus a small embedding model ([EmbeddingGemma](https://huggingface.co/google/embeddinggemma-300m)) for semantic context
 
-The critical word here is **on-device**. Most apps marketed as "AI PDF readers" send your PDF content to a cloud model. ChatPDF, Humata, Hubble, and a dozen others operate this way. Your pages become API calls. The vendor's privacy policy covers what they do with the content. If you're reading a copyrighted textbook, a private research document, or anything you'd rather not upload, that matters.
+The critical word here is **on-device**. Most apps marketed as "AI PDF readers" send your PDF content to a cloud model. ChatPDF, Humata, and similar cloud-first readers all operate this way. Your pages become API calls. The vendor's privacy policy covers what they do with the content. If you're reading a copyrighted textbook, a private research document, or anything you'd rather not upload, that matters.
 
 ReadYuga runs the model on your phone. No cloud call. No training data pipeline. The app has no account, so the output is not associated with any identity, even internally. On airplane mode the AI still works.
 
