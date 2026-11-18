@@ -96,7 +96,7 @@ const tocHeadings = headings.filter((h) => h.depth === 2);
           <ol>
             <li><a href="/">Home</a></li>
             <li aria-hidden="true">/</li>
-            <li><a href="/guides/">Writing</a></li>
+            <li><a href="/guides">Writing</a></li>
             {
               categoryMeta && (
                 <>
@@ -123,7 +123,7 @@ const tocHeadings = headings.filter((h) => h.depth === 2);
           <span class="dot-sep" aria-hidden="true">·</span>
           {
             isHouseAuthor ? (
-              <a href="/about/#author" class="author-link" rel="author">{guideAuthorName}</a>
+              <a href="/about#author" class="author-link" rel="author">{guideAuthorName}</a>
             ) : (
               <span>{guideAuthorName}</span>
             )
@@ -160,7 +160,7 @@ const tocHeadings = headings.filter((h) => h.depth === 2);
               <p class="cta-eyebrow">The app this guide is about</p>
               <h3>ReadYuga</h3>
               <p>The offline AI ebook reader. No subscription. No cloud.</p>
-              <a href="/apps/pagesage/" class="cta-link">Learn more →</a>
+              <a href="/apps/pagesage" class="cta-link">Learn more →</a>
             </div>
           </aside>
         )

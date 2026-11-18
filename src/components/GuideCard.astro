@@ -15,7 +15,7 @@ const categoryMeta = CATEGORIES.find((c) => c.slug === category);
 const dateFormatter = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 ---
 
-<a href={`/guides/${slug}/`} class:list={['card', variant]}>
+<a href={`/guides/${slug}`} class:list={['card', variant]}>
   <div class="meta">
     {categoryMeta && <span class="category">{categoryMeta.name}</span>}
     <time datetime={pubDate.toISOString()}>{dateFormatter.format(pubDate)}</time>
