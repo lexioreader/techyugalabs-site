@@ -1,13 +1,23 @@
 {
   "name": "TechYuga Labs",
   "short_name": "TechYuga",
-  "description": "Independent software, designed with intent.",
-  "start_url": "/",
-  "display": "browser",
-  "background_color": "#fdfbf6",
-  "theme_color": "#fdfbf6",
   "icons": [
-    { "src": "/logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "/apple-touch-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
-  ]
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#8b6a3a",
+  "background_color": "#fdfbf6",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/"
 }

@@ -50,11 +50,13 @@ const structuredDataArray = structuredData
 
 {noindex && <meta name="robots" content="noindex, nofollow" />}
 
-<!-- Favicons. PNG logo first (what we actually have). Browsers that prefer SVG
-     fall back to the old placeholder; replace favicon.svg with a vectorized
-     logo when available and reorder the link elements. -->
-<link rel="icon" type="image/png" sizes="512x512" href="/logo.png" />
+<!-- Favicons. Generated via RealFaviconGenerator from logo.png on 2026-11-18.
+     Order matters: Google's SERP favicon crawler is picky about file size and
+     prefers the standard favicon.ico at /. The 960 KB logo.png we had before
+     was silently rejected by Google for being oversized. Keep these small. -->
+<link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />
 
