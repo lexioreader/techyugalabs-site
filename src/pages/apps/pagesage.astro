@@ -67,6 +67,16 @@ const faq = [
   },
 ];
 
+// Google Play rating (manually synced — source of truth is the Play Store
+// listing). Google requires the aggregateRating used in schema to be visibly
+// displayed on the page, so this const feeds both the JSON-LD and the badge
+// in the hero. Update both numbers together when the Play Store listing
+// moves materially (±0.1 stars or ±10 reviews).
+const PLAY_RATING = {
+  value: '4.8',
+  count: '55',
+};
+
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
@@ -80,7 +90,13 @@ const articleSchema = {
     priceCurrency: 'USD',
     availability: 'https://schema.org/InStock',
   },
-  aggregateRating: undefined,
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: PLAY_RATING.value,
+    reviewCount: PLAY_RATING.count,
+    bestRating: '5',
+    worstRating: '1',
+  },
 };
 ---
 
@@ -112,6 +128,14 @@ const articleSchema = {
             </a>
             <a href="/guides" class="btn ghost">Read the guides →</a>
           </div>
+
+          <a href={app.storeUrl} class="rating-badge" rel="noopener" aria-label={`Rated ${PLAY_RATING.value} out of 5 by ${PLAY_RATING.count} reviewers on Google Play`}>
+            <span class="rating-stars" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.9 7.6.6-5.8 5 1.8 7.4L12 18l-6.5 3.9 1.8-7.4L1.5 9.5l7.6-.6z"/></svg>
+              <strong>{PLAY_RATING.value}</strong>
+            </span>
+            <span class="rating-meta">· {PLAY_RATING.count} reviews on Google Play</span>
+          </a>
 
           <ul class="trust-row">
             {principles.map((p) => (
@@ -264,7 +288,31 @@ const articleSchema = {
     margin: 0 0 2rem;
   }
 
-  .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+
+  /* Rating badge: links to Play Store, satisfies Google's visibility rule for
+     aggregateRating in the SoftwareApplication schema (JSON-LD). Deliberately
+     quiet — reads as a credential, not a sales pitch. */
+  .rating-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--text-sm);
+    color: var(--color-text-dim);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 150ms ease;
+  }
+  .rating-badge:hover { color: var(--color-text); }
+  .rating-stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--color-gold-500);
+    font-weight: 600;
+  }
+  .rating-stars strong { color: var(--color-gold-400); font-weight: 600; }
+  .rating-meta { color: var(--color-text-dim); }
 
   .btn {
     display: inline-flex;
