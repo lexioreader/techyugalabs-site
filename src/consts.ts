@@ -45,11 +45,11 @@ export const AUTHOR = {
   },
 } as const;
 
-// Contact: the ReadYuga support email doubles as the studio contact until we
-// split them. The pagesage007 handle is historical (ReadYuga shipped as
-// "PageSage" before the V1.4.5 rename) and stays live forever because it is
-// the address on the Play Store listing.
-export const CONTACT_EMAIL = 'pagesage007@gmail.com';
+// Studio contact. Separate from the ReadYuga app support email
+// (pagesage007@gmail.com) which stays live forever as the Play Store listing
+// address. Both inboxes forward to the same Gmail; reply from whichever
+// identity matches where the mail originated.
+export const CONTACT_EMAIL = 'support@techyugalabs.com';
 
 // Apps grid data: the source of truth for /apps/ pages + homepage grid.
 // Note on the pagesage slug + Play Store URL below: the Google Play package
